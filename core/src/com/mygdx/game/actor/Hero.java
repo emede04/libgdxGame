@@ -1,6 +1,5 @@
 package com.mygdx.game.actor;
 
-import static com.mygdx.game.Constantes.HERO_FIXTURE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -15,64 +14,62 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.Constantes.*;
 public class Hero extends Actor {
-    //constantes
-    public static final int STATE_NORMAL = 1;
-    private static final float JUMP_SPEED = 6.8f;
-    public static final int STATE_DIE = 0;
-    public float hero_width;
-    public static float hero_height;
-    public static Vector2 pos;
-    //estado del actor;
-    private static boolean canJump = false;
-    public static int  estado;
-    private Body Body_Hero;
 
-    //animacion
-    private final Animation<TextureRegion> HeroAnimation;
-    private World world;
+    public float hero_width;
+    public float hero_height;
+    public static Vector2 posicion;
+
+    private static boolean canJump = false;
+    public static final int VIVO = 0;
+    public static final int MUERTO = 1;
+    private static final float JUM_SPEED = 6.8f;
+    private final Animation<TextureRegion> animation;
+    private final World world;
     private Fixture fixture;
 
-   public Hero(Body body_hero, Animation<TextureRegion> heroAnimation, World world, Fixture fixture){
-       Body_Hero = body_hero;
-
-       HeroAnimation = heroAnimation;
-       this.world = world;
-       this.fixture = fixture;
-   }
-   public void CreateBody(Vector2 posi){
-       BodyDef bodyDef = new BodyDef();
-       bodyDef.position.set(posi);
-       bodyDef.type = BodyDef.BodyType.DynamicBody;
-   }
-
-   public void createFixture(){
-        PolygonShape shape = new PolygonShape();
-       shape.setAsBox((hero_height - hero_width / 2.4f) / 2, hero_height / 2.1f);
-        this.fixture = this.Body_Hero.createFixture(shape,0);
-        this.fixture.setUserData(HERO_FIXTURE);
+    private float tiempo;
+    private Body hero_body;
 
 
+    public Hero(World w, Animation<TextureRegion> a, Vector2 pos) {
+        this.animation = a;
+        this.world = w;
+        tiempo = 0f;
+        hero_width = 0.6f;
+        hero_height = 0.6f;
+        posicion = pos;
+        createBody(posicion);
+        createFixture();
+    }
 
-   }
-   public void setSalta(boolean siono){
-       canJump = siono;
+    public void createBody(Vector2 position) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(position);//la fisica lleva la misma posicion que el dibujo
+        bodyDef.type = BodyDef.BodyType.DynamicBody;//dinamico es el que se mueve y le afecta la fisica
+        this.hero_body = this.world.createBody(bodyDef);
 
-   }
+    }
 
-   //acciones a realizar
-   public void act(float delta){
+    public void createFixture() {
+        PolygonShape boxShape = new PolygonShape();
+        boxShape.setAsBox((hero_height - hero_width / 2.4f) / 2, hero_height / 2.1f);
+        this.fixture = this.hero_body.createFixture(boxShape, 0);
+        //Asinga un nombre a la fisica para poder hacerle luego referencia a la hora de ralizar las colisiones
+        boxShape.dispose();
+    }
 
-   }
-   public void draw(Batch b,float parent){
-        setPosition(Body_Hero.getPosition().x - (hero_width/2),Body_Hero.getPosition().y -(hero_height/2));
-        b.draw(this.HeroAnimation.getKeyFrame(estado,true),getX(), getY(), hero_width, hero_width);
-        if(estado == STATE_NORMAL){
-            estado += Gdx.graphics.getDeltaTime();
-        }
+    public void detach() {
+        this.hero_body.destroyFixture(this.fixture);
+        this.world.destroyBody(this.hero_body);
+    }
 
+    @Override
+    //Dibuja el actor en pantalla en relacion a la posicion indicada
+    public void draw(Batch batch, float parentAlpha) {
+        setPosition(hero_body.getPosition().x - (hero_width / 2), hero_body.getPosition().y - (hero_height / 2));
+        batch.draw(this.animation.getKeyFrame(tiempo, true), getX(), getY(), hero_width, hero_height);
+        tiempo += Gdx.graphics.getDeltaTime(); //acumula el delta que le indicamos en AssetMan
 
-   }
-
-
+    }
 
 }
