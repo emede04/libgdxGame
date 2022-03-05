@@ -28,6 +28,15 @@ public class Hero extends Actor {
     private Fixture fixture;
 
     private float tiempo;
+
+    public Body getHero_body() {
+        return hero_body;
+    }
+
+    public void setHero_body(Body hero_body) {
+        this.hero_body = hero_body;
+    }
+
     private Body hero_body;
 
 
@@ -35,8 +44,8 @@ public class Hero extends Actor {
         this.animation = a;
         this.world = w;
         tiempo = 0f;
-        hero_width = 0.6f;
-        hero_height = 0.6f;
+        hero_width = 0.5f;
+        hero_height = 0.5F;
         posicion = pos;
         createBody(posicion);
         createFixture();

@@ -48,7 +48,10 @@ public class ControladorAsset {
     }
 
     public TextureRegion getBackground() {
+        System.out.println((float) this.atlasMundo.findRegion(Constantes.fondo).getRegionHeight());
+        System.out.println((float) this.atlasMundo.findRegion(Constantes.fondo).getRegionWidth());
         return this.atlasMundo.findRegion(Constantes.fondo);
+
     }
 
     public Music getMusica(){
@@ -61,8 +64,6 @@ public class ControladorAsset {
                 atlasMundo.findRegion("hero3"),
                 atlasMundo.findRegion("hero4"),
                 atlasMundo.findRegion("hero5")
-
-
                 );
     }
 
