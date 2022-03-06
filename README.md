@@ -1,6 +1,7 @@
 # IMPORTANTE
 Juego de android 
 
+queria poner pantalla de gameover pero estoy teniendo problema para matar a las entidades
 
 assets: https://www.kenney.nl/assets
 
