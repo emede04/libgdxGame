@@ -80,5 +80,11 @@ public class Enemigo extends Actor {
     }
 
 
+    public Body getEnemigo_body() {
+        return enemigo_body;
+    }
 
+    public void setEnemigo_body(Body enemigo_body) {
+        this.enemigo_body = enemigo_body;
+    }
 }

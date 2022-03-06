@@ -18,6 +18,8 @@ public class Constantes {
     public static final String getReady = "getReady.png";
 
 
+    public static final String Fuente_fnt  ="mapeo.fnt";
+    public static final String fuente = "fontbase.png";
 
     public static final String ENEMIGO = "mienemigo";
     public static final String SUELO ="suelo";

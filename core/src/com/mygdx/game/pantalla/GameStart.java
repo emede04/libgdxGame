@@ -15,12 +15,14 @@ public class GameStart extends Pantalla {
         private final Music musica;
         public GameStart(MainGame m) {
             super(m);
+
             FillViewport fillViewport = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
             this.stage = new Stage(fillViewport);
             this.musica = m.mainManager.getMusica();
         }
 
     public void MiImagen(){
+
 
     }
 
@@ -29,7 +31,7 @@ public class GameStart extends Pantalla {
 
 
     public void Pulsa(){
-        Image a = new Image(main.mainManager.getB());
+        Image a = new Image(main.mainManager.getInicio());
         a.sizeBy(4f);
         a.setPosition(WORLD_WIDTH,WORLD_HEIGHT);
         a.setPosition(5f,5f);

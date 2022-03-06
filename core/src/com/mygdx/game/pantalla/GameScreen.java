@@ -8,6 +8,7 @@ import static com.mygdx.game.Constantes.SUELO;
 import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
@@ -38,44 +39,48 @@ import com.mygdx.game.actor.tirito;
 import com.mygdx.game.controlores.JoyStick;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameScreen extends Pantalla implements ContactListener {
 
     private float tiempo;
-    private static float ratio = 3.5f;
+    private static float ratio = 0.5f; //el ratio de bichos que spawnean
     private final Music musiquita;
     private Hero hero;
     private Body suelo;
     private final Stage stage;
     private OrthographicCamera CamaraPuntos;
-    private OrthographicCamera fps;
+    private OrthographicCamera camaraFps;
     private BitmapFont fuente;
+
     private World world;
     public Enemigo miEnemigo;
     private ArrayList<tirito> balas;
     public static SpriteBatch batch;
+    //Objeto joystick
     public JoyStick joyStick;
-    public int puntos;
+    public int puntos =0;
     int roll;
-    private final Array<Enemigo> entidades;
+    private final ArrayList<Enemigo> entidades;
 
     public GameScreen(MainGame m) {
         super(m);
-        this.world = new World(new Vector2(0f, -9.8f), false); //fisicas
+        this.world = new World(new Vector2(0f, -9.8f), false); //le pongo graveda de -9,8
         this.world.setContactListener(this);
         roll= 0;
         FillViewport fillViewport = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
         this.stage = new Stage(fillViewport);
         this.balas = new ArrayList<tirito>();
-        this.entidades = new Array<Enemigo>();
+        this.entidades = new ArrayList<Enemigo>();
         this.tiempo = 0F;
-
         musiquita = main.mainManager.getMusica();
         batch = new SpriteBatch();
+        //Actor Joystick
         joyStick = new JoyStick();
+        puntos();
 
-        //camara con los puntos
+
     }
 
 
@@ -92,7 +97,8 @@ public class GameScreen extends Pantalla implements ContactListener {
     }
 
     //asigno la fisica a los controles
-    public void input() {
+    public void input() {     //le añado las fisicas correspondientes
+
         if (joyStick.isRightPressed())
             hero.getHero_body().setLinearVelocity(new Vector2(1, 0));
         else if (joyStick.isLeftPressed())
@@ -103,14 +109,14 @@ public class GameScreen extends Pantalla implements ContactListener {
         if (joyStick.isLeftPressed() && (joyStick.isUpPressed())) {
             hero.getHero_body().applyForce(new Vector2(-4, +1), hero.getHero_body().getWorldCenter(), false);
 
-        }
+        }                //para que salte en diagonal y caiga, aunque la idea es que vuelve
         if (joyStick.isRightPressed() && (joyStick.isUpPressed())) {
             hero.getHero_body().applyForce(new Vector2(+4, +1), hero.getHero_body().getWorldCenter(), true);
 
         }
 
         if(joyStick.isTirito()){
-            hero.cogelaescopeta();
+            hero.cogelaescopeta(); //si me da tiempo a terminarlo queda chulo si no pos nada
         }
 
 
@@ -119,11 +125,13 @@ public class GameScreen extends Pantalla implements ContactListener {
     }
 
 
+    //para añadir enemigos
+
     public void addEnemigo(float delta) {
         int numberRamdon = MathUtils.random(1, 3);
         Animation<TextureRegion> Entidad;
-        float posRandomY = MathUtils.random(3f, 4f);
-        float posRandomX = MathUtils.random(0f, 4f);
+        float ry = MathUtils.random(3f, 4f);
+        float rx = MathUtils.random(1f, 2f);
         Enemigo enemigo = null;
         if (this.hero.esta == Hero.VIVO)
             this.tiempo += delta;
@@ -132,17 +140,17 @@ public class GameScreen extends Pantalla implements ContactListener {
             switch (numberRamdon) {
                 case 1:
                     Entidad = main.mainManager.getBichoVolandoAbeja();
-                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH - posRandomX, posRandomY));
+                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH /rx, ry));
                     break;
 
                 case 2:
                     Entidad = main.mainManager.getMoscardaVolando();
-                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH / posRandomX, posRandomY));
+                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH /(rx), ry));
                     break;
 
                 case 3:
                     Entidad = main.mainManager.getBabosaAnimation();
-                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH / posRandomX, posRandomY));
+                     miEnemigo = new Enemigo(this.world, Entidad, new Vector2(WORLD_WIDTH /rx, ry));
                     break;
 
             }
@@ -165,8 +173,8 @@ public class GameScreen extends Pantalla implements ContactListener {
     }
 
 
-
-    public Actor addHero(World world, Animation<TextureRegion> animation, Vector2 vector) {
+        //metodo para spawnear al heroe
+    public Actor SpawnHero(World world, Animation<TextureRegion> animation, Vector2 vector) {
         hero = new Hero(world, animation, vector);
         this.stage.addActor(this.hero);
         return hero;
@@ -177,7 +185,7 @@ public class GameScreen extends Pantalla implements ContactListener {
     public void show() {
         this.stage.addActor(main.mainManager.addBackground());
         createSuelo();
-        addHero(this.world, main.mainManager.getHeroAnimation(), new Vector2(WORLD_WIDTH / 4f, 2F));
+        SpawnHero(this.world, main.mainManager.getHeroAnimation(), new Vector2(WORLD_WIDTH / 4f, 2F));
 
         this.musiquita.setVolume(0.20f);
        this.musiquita.play();
@@ -194,6 +202,21 @@ public class GameScreen extends Pantalla implements ContactListener {
         joyStick.draw();
         input();
 
+        puntos++;
+        //por ahora esto es asi por que
+
+        //camara el tiemp otranscurrido
+        this.stage.getBatch().setProjectionMatrix(this.CamaraPuntos.combined);
+        this.stage.getBatch().begin();
+        this.fuente.draw(this.stage.getBatch(), ""+this.puntos,SCREEN_WIDTH,SCREEN_HEIGHT-1f);
+        this.stage.getBatch().end();
+
+        //fps
+        this.stage.getBatch().setProjectionMatrix(this.CamaraPuntos.combined);
+        this.stage.getBatch().begin();
+        this.fuente.draw(this.stage.getBatch(), "fps:" + Gdx.graphics.getFramesPerSecond(), SCREEN_WIDTH / 8f, SCREEN_HEIGHT-2f);
+        this.stage.getBatch().end();
+
     }
 
 
@@ -201,12 +224,16 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     @Override
     public void dispose() {
+        super.dispose();
+        miEnemigo.remove();
+        hero.remove();
         this.stage.dispose();
         this.world.dispose();
     }
 
     //metodos colisiones:
 
+            //compruebo si los objetos se tocan
     public boolean areColider(Contact contact, Object objA, Object objB){
         return (contact.getFixtureA().getUserData().equals(objA) && contact.getFixtureB().getUserData().equals(objB)) ||
                 (contact.getFixtureA().getUserData().equals(objB) && contact.getFixtureB().getUserData().equals(objA));
@@ -215,27 +242,31 @@ public class GameScreen extends Pantalla implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
 
+
         if (areColider(contact, HERO, ENEMIGO)) {
             Animation<TextureRegion> samatao = main.mainManager.getMuerte();
             hero.setAnimation(samatao);
-            hero.remove();
+            hero.remove(); //en el caso de que si quito al heroe, bor
 
-            for (int i =0;i<entidades.size;i++){
-                    entidades.get(i).detach();
-                    entidades.get(i).remove();
+                //para eliminar todos los cuerpos de mi enemigos si no me da error de que el mundo esta locked y es horrorso, principal motivo por el que mi bicho no pega tiros
+            Iterator<Enemigo> i = entidades.iterator();
+            if(!world.isLocked()){
+                while(i.hasNext()){
+                    Enemigo e = i.next();
+                    world.destroyBody(e.getEnemigo_body());
+                }
             }
             this.musiquita.stop();
-            // delay de 0.9f al chocar y cambio de pantalla a game Over
+            this.stage.addActor(main.mainManager.addBackgroundPierdes());
             this.stage.addAction(Actions.sequence(
                     Actions.delay(1.5f),
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {
-                            main.setScreen(main.SaMataoScreen);
+                            main.setScreen(main.samataoa);
                         }
                     })
             ));
-
 
         }
 
@@ -263,6 +294,34 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     public void addScore(Contact contact){
         balas = null;
+
+
+
+    }
+
+
+    public void puntos(){
+        this.fuente = this.main.mainManager.getFuente();
+        puntos = 0;
+        this.fuente.getData().scale(0.2f);
+        //considerando que mi mundo es a lo largo y
+        //los asssets son enanos
+         CamaraPuntos = new OrthographicCamera();
+        this.CamaraPuntos.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.CamaraPuntos.update();
+
+
+
+
+        this.camaraFps = new OrthographicCamera();
+        this.camaraFps.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+        this.camaraFps.update();
+
+
+
+
+
+
 
 
 

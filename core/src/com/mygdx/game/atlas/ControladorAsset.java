@@ -1,12 +1,13 @@
 package com.mygdx.game.atlas;
 
-import static com.mygdx.game.Constantes.ATLAS_BICHOS;
+import static com.mygdx.game.Constantes.*;
 import static com.mygdx.game.Constantes.ATLAS_MAP;
 import static com.mygdx.game.Constantes.ATLAS_Pantalla;
 import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
 import static com.mygdx.game.Constantes.musica_fondo;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,12 +28,13 @@ public class ControladorAsset {
     private final TextureAtlas atlasPantalla;
 
     public ControladorAsset() {
+        //cargo los atlas
         this.manager = new AssetManager();
         manager.load(ATLAS_MAP, TextureAtlas.class);
         manager.load(musica_fondo, Music.class);
         manager.load(ATLAS_BICHOS, TextureAtlas.class);
         manager.load(ATLAS_Pantalla, TextureAtlas.class);
-
+        //cierro
         manager.finishLoading();
         atlasMundo = manager.get(ATLAS_MAP);
         atlasBichos = manager.get(ATLAS_BICHOS);
@@ -48,6 +50,7 @@ public class ControladorAsset {
 
 
      }
+    //añado el fondo
     public Image addBackground(){
        Image fondo;
        fondo = new Image(getBackground());
@@ -58,11 +61,27 @@ public class ControladorAsset {
     }
 
     public TextureRegion getBackground() {
-        System.out.println((float) this.atlasMundo.findRegion(Constantes.fondo).getRegionHeight());
-        System.out.println((float) this.atlasMundo.findRegion(Constantes.fondo).getRegionWidth());
+
         return this.atlasMundo.findRegion(Constantes.fondo);
 
     }
+    public Image addBackgroundPierdes(){
+        Image fondo;
+        fondo = new Image(getGameOver());
+        fondo.setPosition(0,0);
+        fondo.setSize(WORLD_WIDTH,WORLD_HEIGHT);
+        return fondo;
+    }
+
+
+
+    public TextureRegion getGameOver(){
+        return this.atlasPantalla.findRegion("fondogameover");
+
+    }
+
+
+
 
     public Music getMusica(){
         return manager.get(musica_fondo);
@@ -108,23 +127,21 @@ public class ControladorAsset {
 
     public TextureRegion getInicio() {
 
-            return this.atlasMundo.findRegion(Constantes.getReady);
+            return this.atlasMundo.findRegion(fondo);
 
 
     }
-    public TextureRegion getGameOver(){
-         return this.atlasPantalla.findRegion(Constantes.gameOver);
 
-    }
 
-    public BitmapFont getFont(){
-        return null;
-    }
 
 
     // public Animation<TextureRegion> getZombiePorqueno(){
 
   //  }
 
+
+    public BitmapFont getFuente() {
+        return new BitmapFont(Gdx.files.internal(Fuente_fnt), Gdx.files.internal(fuente), false);
+    }
 
 }
