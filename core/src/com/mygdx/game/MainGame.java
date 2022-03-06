@@ -26,7 +26,7 @@ public class MainGame extends Game {
 		this.LetsGooScreen = new GameStart(this);
 		this.SaMataoScreen = new GameOver(this);
 		this.juego = new GameScreen(this);
-		setScreen(juego);
+		setScreen(LetsGooScreen);
 
 
 	}

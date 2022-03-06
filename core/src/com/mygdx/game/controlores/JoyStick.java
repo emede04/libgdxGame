@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +19,7 @@ import static com.mygdx.game.Constantes.*;
 
 import com.mygdx.game.pantalla.GameScreen;
 
-public class JoyStick {
+public class JoyStick extends Actor {
     Viewport viewport;
     Stage stage;
     boolean upPressed, downPressed, leftPressed, rightPressed, tirito;
@@ -224,6 +225,7 @@ public class JoyStick {
     public void setCam(OrthographicCamera cam) {
         this.cam = cam;
     }
+
 
 }
 

@@ -3,16 +3,12 @@ package com.mygdx.game.atlas;
 import static com.mygdx.game.Constantes.ATLAS_BICHOS;
 import static com.mygdx.game.Constantes.ATLAS_MAP;
 import static com.mygdx.game.Constantes.ATLAS_Pantalla;
-import static com.mygdx.game.Constantes.HERO;
-import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
-import static com.mygdx.game.Constantes.SCREEN_WIDTH;
 import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
 import static com.mygdx.game.Constantes.musica_fondo;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.Constantes;
-import com.mygdx.game.actor.Hero;
 
 
 public class ControladorAsset {
@@ -31,12 +26,13 @@ public class ControladorAsset {
     private final TextureAtlas atlasBichos;
     private final TextureAtlas atlasPantalla;
 
-    public ControladorAsset(){
+    public ControladorAsset() {
         this.manager = new AssetManager();
-        manager.load(ATLAS_MAP,TextureAtlas.class);
-        manager.load(musica_fondo,Music.class);
-        manager.load(ATLAS_BICHOS,TextureAtlas.class);
-        manager.load(ATLAS_Pantalla,TextureAtlas.class);
+        manager.load(ATLAS_MAP, TextureAtlas.class);
+        manager.load(musica_fondo, Music.class);
+        manager.load(ATLAS_BICHOS, TextureAtlas.class);
+        manager.load(ATLAS_Pantalla, TextureAtlas.class);
+
         manager.finishLoading();
         atlasMundo = manager.get(ATLAS_MAP);
         atlasBichos = manager.get(ATLAS_BICHOS);
@@ -44,6 +40,14 @@ public class ControladorAsset {
 
 
     }
+
+
+
+     public TextureRegion getB() {
+         return this.atlasPantalla.findRegion("button");
+
+
+     }
     public Image addBackground(){
        Image fondo;
        fondo = new Image(getBackground());

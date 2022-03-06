@@ -1,13 +1,15 @@
 package com.mygdx.game.pantalla;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.mygdx.game.MainGame;
 
 public abstract  class Pantalla implements Screen {
-    protected MainGame main;
-
+    public MainGame main;
     public Pantalla(MainGame m) {
         this.main = m;
+
     }
 
     @Override

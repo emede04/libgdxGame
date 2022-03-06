@@ -61,7 +61,7 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     public GameScreen(MainGame m) {
         super(m);
-        this.world = new World(new Vector2(0f, -9.8f), true); //fisicas
+        this.world = new World(new Vector2(0f, -9.8f), false); //fisicas
         this.world.setContactListener(this);
         roll= 0;
         FillViewport fillViewport = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
@@ -154,6 +154,15 @@ public class GameScreen extends Pantalla implements ContactListener {
 
 
 
+    public void hide(){
+        this.miEnemigo.detach();
+        this.miEnemigo.remove();
+        this.hero.detach();
+        this.hero.remove();
+
+
+
+    }
 
 
 
@@ -177,9 +186,10 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         addEnemigo(delta);
+        this.world.step(delta, 6, 2);
         this.stage.act();
-        this.world.step(delta,6,2);
         this.stage.draw();
         joyStick.draw();
         input();
@@ -188,14 +198,6 @@ public class GameScreen extends Pantalla implements ContactListener {
 
 
 
-
-    public void hide() {
-        this.hero.detach();
-        this.hero.remove();
-
-
-
-    }
 
     @Override
     public void dispose() {
@@ -216,23 +218,31 @@ public class GameScreen extends Pantalla implements ContactListener {
         if (areColider(contact, HERO, ENEMIGO)) {
             Animation<TextureRegion> samatao = main.mainManager.getMuerte();
             hero.setAnimation(samatao);
-            this.musiquita.stop();
-            for (Enemigo e : entidades) {
-                entidades.removeValue(e, true);
-            }
+            hero.remove();
 
+            for (int i =0;i<entidades.size;i++){
+                    entidades.get(i).detach();
+                    entidades.get(i).remove();
+            }
+            this.musiquita.stop();
+            // delay de 0.9f al chocar y cambio de pantalla a game Over
             this.stage.addAction(Actions.sequence(
-                    Actions.delay(0.9f),
+                    Actions.delay(1.5f),
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {
                             main.setScreen(main.SaMataoScreen);
                         }
-                    })));
-        };
+                    })
+            ));
 
+
+        }
 
     }
+
+
+
 
     @Override
     public void endContact(Contact contact) {
@@ -251,14 +261,13 @@ public class GameScreen extends Pantalla implements ContactListener {
 
 
 
-
-
     public void addScore(Contact contact){
         balas = null;
 
 
 
     }
+
 
 
 
