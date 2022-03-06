@@ -12,6 +12,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.Constantes;
+
+import java.util.ArrayList;
 
 public class Hero extends Actor {
 
@@ -24,12 +27,23 @@ public class Hero extends Actor {
     private int vida = 0;
     public static final int VIVO = 0;
     public static final int MUERTO = 1;
-    private static final float JUM_SPEED = 6.8f;
-    private final Animation<TextureRegion> animation;
+    private Animation<TextureRegion> animation;
     private final World world;
     private Fixture fixture;
 
     private float tiempo;
+
+    public static int getVIVO() {
+        return VIVO;
+    }
+
+    public static int getMUERTO() {
+        return MUERTO;
+    }
+
+    public Animation<TextureRegion> getAnimation() {
+        return animation;
+    }
 
     public Body getHero_body() {
         return hero_body;
@@ -67,6 +81,7 @@ public class Hero extends Actor {
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox((hero_height - hero_width / 2.4f) / 2, hero_height / 2.1f);
         this.fixture = this.hero_body.createFixture(boxShape, 0);
+        this.fixture.setUserData(Constantes.HERO);
         //Asinga un nombre a la fisica para poder hacerle luego referencia a la hora de ralizar las colisiones
         boxShape.dispose();
     }
@@ -82,6 +97,26 @@ public class Hero extends Actor {
         batch.draw(this.animation.getKeyFrame(tiempo, true), getX(), getY(), hero_width, hero_height);
         tiempo += Gdx.graphics.getDeltaTime(); //acumula el delta que le indicamos en AssetMan
 
+    }
+
+    public  void act(float delta){
+        boolean dispara = Gdx.input.justTouched();
+        if(dispara){
+            cogelaescopeta();
+        }
+
+    }
+
+
+
+    public void cogelaescopeta() {
+
+
+
+    }
+
+    public void setAnimation(Animation<TextureRegion> a) {
+        this.animation = a;
     }
 
 }

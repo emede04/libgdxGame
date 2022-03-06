@@ -6,21 +6,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.atlas.ControladorAsset;
 import com.mygdx.game.controlores.JoyStick;
+import com.mygdx.game.pantalla.GameOver;
 import com.mygdx.game.pantalla.GameScreen;
+import com.mygdx.game.pantalla.GameStart;
 
 public class MainGame extends Game {
-	SpriteBatch batch;
-	Texture img;
-	GameScreen juego;
+	public SpriteBatch batch;
+	public Texture img;
+	public GameScreen juego;
+	public GameOver SaMataoScreen;
+	public GameStart LetsGooScreen;
+
 	public ControladorAsset mainManager;
 
 
 	@Override
 	public void create() {
 		this.mainManager = new ControladorAsset();
-		//this.SaMataoScreen = new SaMataoScreen(this);
-		//this.LetsGooScreen = new LetsGooScreen(this);
-		//setScreen(LetsGooScreen);
+		this.LetsGooScreen = new GameStart(this);
+		this.SaMataoScreen = new GameOver(this);
 		this.juego = new GameScreen(this);
 		setScreen(juego);
 

@@ -5,42 +5,42 @@ format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 abeja1
-  rotate: false
+  rotate: true
   xy: 20, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 abeja2
-  rotate: false
+  rotate: true
   xy: 74, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 babosa1
-  rotate: false
+  rotate: true
   xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 babosa2
-  rotate: false
+  rotate: true
   xy: 56, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 moscarda1
-  rotate: false
+  rotate: true
   xy: 38, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 moscarda2
-  rotate: false
+  rotate: true
   xy: 92, 2
   size: 16, 16
   orig: 16, 16

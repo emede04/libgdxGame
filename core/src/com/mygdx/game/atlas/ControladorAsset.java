@@ -2,6 +2,7 @@ package com.mygdx.game.atlas;
 
 import static com.mygdx.game.Constantes.ATLAS_BICHOS;
 import static com.mygdx.game.Constantes.ATLAS_MAP;
+import static com.mygdx.game.Constantes.ATLAS_Pantalla;
 import static com.mygdx.game.Constantes.HERO;
 import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
 import static com.mygdx.game.Constantes.SCREEN_WIDTH;
@@ -12,11 +13,13 @@ import static com.mygdx.game.Constantes.musica_fondo;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.Constantes;
 import com.mygdx.game.actor.Hero;
 
@@ -26,18 +29,18 @@ public class ControladorAsset {
     private final AssetManager manager;
     private final TextureAtlas atlasMundo;
     private final TextureAtlas atlasBichos;
-
+    private final TextureAtlas atlasPantalla;
 
     public ControladorAsset(){
         this.manager = new AssetManager();
         manager.load(ATLAS_MAP,TextureAtlas.class);
         manager.load(musica_fondo,Music.class);
         manager.load(ATLAS_BICHOS,TextureAtlas.class);
-
+        manager.load(ATLAS_Pantalla,TextureAtlas.class);
         manager.finishLoading();
         atlasMundo = manager.get(ATLAS_MAP);
         atlasBichos = manager.get(ATLAS_BICHOS);
-
+        atlasPantalla = manager.get(ATLAS_Pantalla);
 
 
     }
@@ -71,6 +74,7 @@ public class ControladorAsset {
     }
 
     public Animation <TextureRegion> getBichoVolandoAbeja(){
+
         return new Animation<TextureRegion>(0.25f,
                 atlasBichos.findRegion("abeja1"),
                 atlasBichos.findRegion("abeja2")
@@ -91,9 +95,30 @@ public class ControladorAsset {
                 atlasBichos.findRegion("babosa2")
         );
     }
+    public Animation<TextureRegion> getMuerte(){
+        return new Animation<TextureRegion>(0.25f,
+                atlasMundo.findRegion("hero1"),
+                atlasMundo.findRegion("hero2")
+        );
+    }
+
+    public TextureRegion getInicio() {
+
+            return this.atlasMundo.findRegion(Constantes.getReady);
 
 
-   // public Animation<TextureRegion> getZombiePorqueno(){
+    }
+    public TextureRegion getGameOver(){
+         return this.atlasPantalla.findRegion(Constantes.gameOver);
+
+    }
+
+    public BitmapFont getFont(){
+        return null;
+    }
+
+
+    // public Animation<TextureRegion> getZombiePorqueno(){
 
   //  }
 
