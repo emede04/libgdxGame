@@ -1,5 +1,6 @@
 package com.mygdx.game.actor;
 
+import static com.mygdx.game.Constantes.WORLD_WIDTH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,15 +14,18 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Hero extends Actor {
 
-    public float hero_width;
-    public float hero_height;
+
+
+
+
+public class Abeja extends Actor {
+
+    public float abeja_width;
+    public float abeja_height;
     public static Vector2 posicion;
 
     private static boolean canJump = false;
-    public static int esta;
-    private int vida = 0;
     public static final int VIVO = 0;
     public static final int MUERTO = 1;
     private static final float JUM_SPEED = 6.8f;
@@ -31,26 +35,19 @@ public class Hero extends Actor {
 
     private float tiempo;
 
-    public Body getHero_body() {
-        return hero_body;
-    }
-
-    public void setHero_body(Body hero_body) {
-        this.hero_body = hero_body;
-    }
-
-    private Body hero_body;
 
 
-    public Hero(World w, Animation<TextureRegion> a, Vector2 pos) {
+    private Body abeja_body;
+
+
+    public Abeja(World w, Animation<TextureRegion> a) {
         this.animation = a;
         this.world = w;
         tiempo = 0f;
-        hero_width = 0.5f;
-        hero_height = 0.5F;
-        posicion = pos;
-        vida = 10;
-        esta = VIVO;
+        abeja_width = 0.5f;
+        abeja_height = 0.5F;
+        posicion = new Vector2(WORLD_WIDTH / 2f, 2F);
+        int vida = 0;
         createBody(posicion);
         createFixture();
     }
@@ -59,29 +56,34 @@ public class Hero extends Actor {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(position);//la fisica lleva la misma posicion que el dibujo
         bodyDef.type = BodyDef.BodyType.DynamicBody;//dinamico es el que se mueve y le afecta la fisica
-        this.hero_body = this.world.createBody(bodyDef);
+        this.abeja_body = this.world.createBody(bodyDef);
 
     }
 
     public void createFixture() {
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox((hero_height - hero_width / 2.4f) / 2, hero_height / 2.1f);
-        this.fixture = this.hero_body.createFixture(boxShape, 0);
+        boxShape.setAsBox((abeja_height - abeja_width / 2.4f) / 2, abeja_height / 2.1f);
+        this.fixture = this.abeja_body.createFixture(boxShape, 0);
         //Asinga un nombre a la fisica para poder hacerle luego referencia a la hora de ralizar las colisiones
         boxShape.dispose();
     }
 
     public void detach() {
-        this.hero_body.destroyFixture(this.fixture);
-        this.world.destroyBody(this.hero_body);
+        this.abeja_body.destroyFixture(this.fixture);
+        this.world.destroyBody(this.abeja_body);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setPosition(hero_body.getPosition().x - (hero_width / 2), hero_body.getPosition().y - (hero_height / 2));
-        batch.draw(this.animation.getKeyFrame(tiempo, true), getX(), getY(), hero_width, hero_height);
-        tiempo += Gdx.graphics.getDeltaTime(); //acumula el delta que le indicamos en AssetMan
+        setPosition(abeja_body.getPosition().x - (abeja_width / 2), abeja_body.getPosition().y - (abeja_height / 2));
+        batch.draw(this.animation.getKeyFrame(tiempo, true), getX(), getY(), abeja_width, abeja_height);
+        tiempo += Gdx.graphics.getDeltaTime();
 
     }
+    public boolean fuera() {
+        return this.abeja_body.getPosition().x <= -2f;
+    }
+
+
 
 }

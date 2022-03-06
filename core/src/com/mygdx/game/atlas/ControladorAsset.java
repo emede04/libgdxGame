@@ -1,5 +1,6 @@
 package com.mygdx.game.atlas;
 
+import static com.mygdx.game.Constantes.ATLAS_BICHOS;
 import static com.mygdx.game.Constantes.ATLAS_MAP;
 import static com.mygdx.game.Constantes.HERO;
 import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
@@ -24,15 +25,18 @@ public class ControladorAsset {
 
     private final AssetManager manager;
     private final TextureAtlas atlasMundo;
+    private final TextureAtlas atlasBichos;
+
 
     public ControladorAsset(){
         this.manager = new AssetManager();
         manager.load(ATLAS_MAP,TextureAtlas.class);
         manager.load(musica_fondo,Music.class);
-
+        manager.load(ATLAS_BICHOS,TextureAtlas.class);
 
         manager.finishLoading();
         atlasMundo = manager.get(ATLAS_MAP);
+        atlasBichos = manager.get(ATLAS_BICHOS);
 
 
 
@@ -65,6 +69,33 @@ public class ControladorAsset {
                 atlasMundo.findRegion("hero5")
                 );
     }
+
+    public Animation <TextureRegion> getBichoVolandoAbeja(){
+        return new Animation<TextureRegion>(0.25f,
+                atlasBichos.findRegion("abeja1"),
+                atlasBichos.findRegion("abeja2")
+                );
+    }
+
+
+    public Animation <TextureRegion> getMoscardaVolando(){
+        return new Animation<TextureRegion>(0.25f,
+                atlasBichos.findRegion("moscarda1"),
+                atlasBichos.findRegion("moscarda2")
+        );
+    }
+
+    public Animation<TextureRegion> getBabosaAnimation(){
+        return new Animation<TextureRegion>(0.25f,
+                atlasBichos.findRegion("babosa1"),
+                atlasBichos.findRegion("babosa2")
+        );
+    }
+
+
+   // public Animation<TextureRegion> getZombiePorqueno(){
+
+  //  }
 
 
 }

@@ -75,7 +75,7 @@ import com.mygdx.game.pantalla.GameScreen;
             Table table = new Table();
             table.bottom().left();
             Image upImg = new Image(new Texture("flatDark25.png"));
-            upImg.setSize(70, 70);
+            upImg.setSize(50, 50);
 
             upImg.addListener(new InputListener() {
 
@@ -92,7 +92,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image downImg = new Image(new Texture("flatDark26.png"));
-            downImg.setSize(70, 70);
+            downImg.setSize(50, 50);
             downImg.addListener(new InputListener() {
 
                 @Override
@@ -108,7 +108,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image rightImg = new Image(new Texture("flatDark24.png"));
-            rightImg.setSize(70, 70);
+            rightImg.setSize(50, 50);
             rightImg.addListener(new InputListener() {
 
                 @Override
@@ -124,7 +124,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image leftImg = new Image(new Texture("flatDark23.png"));
-            leftImg.setSize(70, 70);
+            leftImg.setSize(50, 50);
             leftImg.addListener(new InputListener() {
 
                 @Override
@@ -145,7 +145,7 @@ import com.mygdx.game.pantalla.GameScreen;
             table.add();
             table.add(upImg).size(upImg.getWidth(), upImg.getHeight());
             table.add();
-            table.row().pad(5, 5, 5, 5);
+            table.row().pad(5, 10, 5, 5);
             table.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
             table.add();
             table.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());

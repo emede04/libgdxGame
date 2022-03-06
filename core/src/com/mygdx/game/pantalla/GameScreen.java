@@ -4,6 +4,7 @@ import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
 import static com.mygdx.game.Constantes.SCREEN_WIDTH;
 import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
+import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -28,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.mygdx.game.MainGame;
+import com.mygdx.game.actor.Abeja;
 import com.mygdx.game.actor.Hero;
 import com.mygdx.game.controlores.JoyStick;
 
@@ -38,31 +40,75 @@ public class GameScreen extends Pantalla implements ContactListener {
     private Body cielo;
     private final Stage stage;
     private World world;
+    private float spawnea;
+
     public static SpriteBatch batch;
     public JoyStick joyStick;
-
+    private final Array<Abeja> arrayAbejas;
 
     public GameScreen(MainGame m) {
         super(m);
         this.world = new World(new Vector2(0, -9.8f), true); //fisicas
-
-        batch = new SpriteBatch();
         this.world.setContactListener(this);
         FillViewport fillViewport = new FillViewport(WORLD_WIDTH,WORLD_HEIGHT);
+        arrayAbejas = new Array<>();
         this.stage = new Stage(fillViewport);
         this.musiquita = m.mainManager.getMusica();
         this.stage.addActor(m.mainManager.addBackground());
         createSuelo();
+        this.spawnea = 0f;
+        batch = new SpriteBatch();
         joyStick = new JoyStick();
 
+        puntospuntos();
     }
+
+    private void puntospuntos() {
+
+
+    }
+
+    private void SpawneaAbejas(float delta){
+        if(Hero.esta ==Hero.VIVO){
+            this.spawnea *= delta;
+            if(this.spawnea >= 1){
+              this.spawnea -= 2;
+              Abeja tabarrico = new Abeja(this.world, main.mainManager.getBichoVolandoAbeja());
+              arrayAbejas.add(tabarrico);
+            }
+        }
+    }
+    private void BorroAbejas(){
+         for (Abeja b : this.arrayAbejas) {
+                if (!this.world.isLocked()) {
+                    if (b.fuera()) {
+                        b.detach();//eliminamos parte fisica
+                        b.remove();//eliminamos parte grafica
+                        this.arrayAbejas.removeValue(b, false);
+                    }
+                }
+            }
+
+
+        }
+
 
 
     public void show() {
         addHero(this.world, main.mainManager.getHeroAnimation(), new Vector2(WORLD_WIDTH / 2f, 2F));
+        addAbeja(this.world,main.mainManager.getBichoVolandoAbeja());
         this.musiquita.setVolume(0.20f);
         this.musiquita.play();
 
+    }
+
+    public Abeja addAbeja(World world, Animation<TextureRegion> animation){
+        Abeja abe;
+        abe = new Abeja(world, animation);
+        this.stage.addActor(this.hero);
+        this.stage.addActor(abe);
+
+        return abe;
     }
 
 
@@ -74,16 +120,16 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     @Override
     public void render(float delta) {
-        update(Gdx.graphics.getDeltaTime());
+        input();
+
         this.stage.act();
-        this.world.step(delta, 1, 2);
-        this.stage.draw();
+         this.stage.draw();
         joyStick.draw();
+        update();
     }
 
 
-    public void update(float deltaTime) {
-        input();
+    public void update() {
         world.step(1 / 60f, 6, 2);
 
     }
