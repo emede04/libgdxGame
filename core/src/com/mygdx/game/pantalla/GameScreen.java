@@ -240,6 +240,7 @@ public class GameScreen extends Pantalla implements ContactListener {
             hero.setAnimation(samatao);
              //en el caso de que si quito al heroe, bor
             //para eliminar todos los cuerpos de mi enemigos si no me da error de que el mundo esta locked y es horrorso, principal motivo por el que mi bicho no pega tiros
+
             Iterator<Enemigo> i = entidades.iterator();
             if(!world.isLocked()){
                 while(i.hasNext()){

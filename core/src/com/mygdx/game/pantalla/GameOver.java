@@ -25,6 +25,8 @@ import com.mygdx.game.MainGame;
             this.WORLD = new World(new Vector2(0, 0), false);
             FitViewport fitViewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.stage = new Stage(fitViewport);
+            this.stage.addActor(main.mainManager.addBackgroundPierdes());
+
 
         }
 
@@ -41,21 +43,30 @@ import com.mygdx.game.MainGame;
 
         @Override
         public void render(float delta) {
+            addBackground();
+
             this.stage.draw();
 
             if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(62)) {
+                this.background.remove();
+
                 main.setScreen(main.LetsGooScreen);
-                dispose();
 
             }
         }
         public void show() {
             addBackground();
-
         }
+
+        @Override
+        public void hide() {
+            super.hide();
+        }
+
         public void dispose() {
             super.dispose();
             this.stage.dispose();
+
         }
 
     }
