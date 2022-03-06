@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.Constantes;
 
 
+
 public class ControladorAsset {
 
     private final AssetManager manager;
@@ -45,11 +46,7 @@ public class ControladorAsset {
 
 
 
-     public TextureRegion getB() {
-         return this.atlasPantalla.findRegion("button");
 
-
-     }
     //añado el fondo
     public Image addBackground(){
        Image fondo;
@@ -65,6 +62,7 @@ public class ControladorAsset {
         return this.atlasMundo.findRegion(Constantes.fondo);
 
     }
+
     public Image addBackgroundPierdes(){
         Image fondo;
         fondo = new Image(getGameOver());
@@ -79,7 +77,22 @@ public class ControladorAsset {
         return this.atlasPantalla.findRegion("fondogameover");
 
     }
+    public Image addBackgroundBienvenido(){
+        Image fondo;
+        fondo = new Image(getgitgud());
+        fondo.setPosition(0,0);
+        fondo.setSize(WORLD_WIDTH,WORLD_HEIGHT);
+        return fondo;
 
+
+    }
+
+
+
+    public TextureRegion getgitgud(){
+        return this.atlasPantalla.findRegion("fondoinicio");
+
+    }
 
 
 
@@ -131,6 +144,8 @@ public class ControladorAsset {
 
 
     }
+
+
 
 
 

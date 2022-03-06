@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -78,11 +77,10 @@ public class GameScreen extends Pantalla implements ContactListener {
         batch = new SpriteBatch();
         //Actor Joystick
         joyStick = new JoyStick();
-        puntos();
+        init();
 
 
     }
-
 
     //creo el suelo
     public void createSuelo() {
@@ -167,10 +165,7 @@ public class GameScreen extends Pantalla implements ContactListener {
         this.miEnemigo.remove();
         this.hero.detach();
         this.hero.remove();
-
-
-
-    }
+            }
 
 
         //metodo para spawnear al heroe
@@ -196,19 +191,22 @@ public class GameScreen extends Pantalla implements ContactListener {
     public void render(float delta) {
         super.render(delta);
         addEnemigo(delta);
+
         this.world.step(delta, 6, 2);
+
         this.stage.act();
+
         this.stage.draw();
         joyStick.draw();
-        input();
+        input();   //los botones
 
-        puntos++;
+        puntos = entidades.size();
         //por ahora esto es asi por que
 
-        //camara el tiemp otranscurrido
+        //camara con el numero de entes honestamente he estado esperando tod0 el rato a ver que entraba y que no
         this.stage.getBatch().setProjectionMatrix(this.CamaraPuntos.combined);
         this.stage.getBatch().begin();
-        this.fuente.draw(this.stage.getBatch(), ""+this.puntos,SCREEN_WIDTH,SCREEN_HEIGHT-1f);
+        this.fuente.draw(this.stage.getBatch(), "entes: "+this.puntos,SCREEN_WIDTH/3f,SCREEN_HEIGHT/4f);
         this.stage.getBatch().end();
 
         //fps
@@ -222,16 +220,10 @@ public class GameScreen extends Pantalla implements ContactListener {
 
 
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        miEnemigo.remove();
-        hero.remove();
-        this.stage.dispose();
-        this.world.dispose();
-    }
+
 
     //metodos colisiones:
+        //me falta los disparos
 
             //compruebo si los objetos se tocan
     public boolean areColider(Contact contact, Object objA, Object objB){
@@ -246,9 +238,8 @@ public class GameScreen extends Pantalla implements ContactListener {
         if (areColider(contact, HERO, ENEMIGO)) {
             Animation<TextureRegion> samatao = main.mainManager.getMuerte();
             hero.setAnimation(samatao);
-            hero.remove(); //en el caso de que si quito al heroe, bor
-
-                //para eliminar todos los cuerpos de mi enemigos si no me da error de que el mundo esta locked y es horrorso, principal motivo por el que mi bicho no pega tiros
+             //en el caso de que si quito al heroe, bor
+            //para eliminar todos los cuerpos de mi enemigos si no me da error de que el mundo esta locked y es horrorso, principal motivo por el que mi bicho no pega tiros
             Iterator<Enemigo> i = entidades.iterator();
             if(!world.isLocked()){
                 while(i.hasNext()){
@@ -257,14 +248,17 @@ public class GameScreen extends Pantalla implements ContactListener {
                 }
             }
             this.musiquita.stop();
-            this.stage.addActor(main.mainManager.addBackgroundPierdes());
+          this.stage.addActor(main.mainManager.addBackgroundPierdes());
+
             this.stage.addAction(Actions.sequence(
-                    Actions.delay(1.5f),
+                    Actions.delay(2.5f),
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {
                             main.setScreen(main.samataoa);
                         }
+
+
                     })
             ));
 
@@ -300,10 +294,10 @@ public class GameScreen extends Pantalla implements ContactListener {
     }
 
 
-    public void puntos(){
+    public void init(){
         this.fuente = this.main.mainManager.getFuente();
         puntos = 0;
-        this.fuente.getData().scale(0.2f);
+        this.fuente.getData().scale(WORLD_WIDTH/20F);
         //considerando que mi mundo es a lo largo y
         //los asssets son enanos
          CamaraPuntos = new OrthographicCamera();
@@ -312,25 +306,23 @@ public class GameScreen extends Pantalla implements ContactListener {
 
 
 
-
+        this.fuente = this.main.mainManager.getFuente();
         this.camaraFps = new OrthographicCamera();
         this.camaraFps.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         this.camaraFps.update();
+   }
 
 
-
-
-
-
-
-
-
+    @Override
+    //Se llama para liberar los recursos de la pantalla
+    public void dispose() {
+        super.dispose();
+        this.stage.dispose();
     }
-
-
-
-
-
-
 }
+
+
+
+
+
 

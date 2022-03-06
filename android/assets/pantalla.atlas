@@ -1,27 +1,20 @@
 
 pantalla.png
-size: 1024, 256
+size: 2048, 256
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-button
-  rotate: false
-  xy: 2, 2
-  size: 63, 36
-  orig: 63, 36
-  offset: 0, 0
-  index: -1
 fondogameover
   rotate: false
-  xy: 2, 40
+  xy: 2, 2
   size: 608, 192
   orig: 608, 192
   offset: 0, 0
   index: -1
-gameover
+fondoinicio
   rotate: false
-  xy: 612, 68
-  size: 250, 164
-  orig: 250, 164
+  xy: 612, 2
+  size: 608, 192
+  orig: 608, 192
   offset: 0, 0
   index: -1

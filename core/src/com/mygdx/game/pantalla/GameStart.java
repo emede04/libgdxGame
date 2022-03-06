@@ -19,12 +19,10 @@ public class GameStart extends Pantalla {
             FillViewport fillViewport = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
             this.stage = new Stage(fillViewport);
             this.musica = m.mainManager.getMusica();
+            this.stage.addActor(m.mainManager.addBackgroundBienvenido());
+
         }
 
-    public void MiImagen(){
-
-
-    }
 
 
 
