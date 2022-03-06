@@ -5,14 +5,14 @@ format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 abeja1
-  rotate: false
+  rotate: true
   xy: 20, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 abeja2
-  rotate: false
+  rotate: true
   xy: 74, 2
   size: 16, 16
   orig: 16, 16

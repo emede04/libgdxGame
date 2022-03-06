@@ -105,7 +105,6 @@ public class GameScreen extends Pantalla implements ContactListener {
     public Abeja addAbeja(World world, Animation<TextureRegion> animation){
         Abeja abe;
         abe = new Abeja(world, animation);
-        this.stage.addActor(this.hero);
         this.stage.addActor(abe);
 
         return abe;
@@ -134,6 +133,9 @@ public class GameScreen extends Pantalla implements ContactListener {
 
     }
 
+
+
+    //metodos colisiones:
 
     @Override
     public void beginContact(Contact contact) {
@@ -176,7 +178,6 @@ public class GameScreen extends Pantalla implements ContactListener {
             hero.getHero_body().setLinearVelocity(new Vector2(-1, 0));
         if (joyStick.isUpPressed() && hero.getHero_body().getLinearVelocity().y == 0)
             hero.getHero_body().applyLinearImpulse(new Vector2(0, 2), hero.getHero_body().getWorldCenter(), true);
-
             //es decir ya esta en el aire
             if (joyStick.isLeftPressed() && (joyStick.isUpPressed())) {
                 hero.getHero_body().applyForce(new Vector2(-4, +1), hero.getHero_body().getWorldCenter(), false);
