@@ -1,9 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.atlas.ControladorAsset;
+import com.mygdx.game.controlores.JoyStick;
 import com.mygdx.game.pantalla.GameScreen;
 
 public class MainGame extends Game {

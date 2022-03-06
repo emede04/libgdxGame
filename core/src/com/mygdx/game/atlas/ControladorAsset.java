@@ -4,7 +4,7 @@ import static com.mygdx.game.Constantes.ATLAS_MAP;
 import static com.mygdx.game.Constantes.HERO;
 import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
 import static com.mygdx.game.Constantes.SCREEN_WIDTH;
-import static com.mygdx.game.Constantes.WORLD_HEIGTH;
+import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
 import static com.mygdx.game.Constantes.musica_fondo;
 
@@ -26,7 +26,6 @@ public class ControladorAsset {
     private final TextureAtlas atlasMundo;
 
     public ControladorAsset(){
-        System.out.println("hola");
         this.manager = new AssetManager();
         manager.load(ATLAS_MAP,TextureAtlas.class);
         manager.load(musica_fondo,Music.class);
@@ -43,7 +42,7 @@ public class ControladorAsset {
        fondo = new Image(getBackground());
         System.out.println(fondo);
        fondo.setPosition(0,0);
-       fondo.setSize(WORLD_WIDTH,WORLD_HEIGTH);
+       fondo.setSize(WORLD_WIDTH,WORLD_HEIGHT);
        return fondo;
     }
 

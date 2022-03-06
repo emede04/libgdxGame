@@ -11,20 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import com.mygdx.game.MainGame;
+import static  com.mygdx.game.Constantes.*;
 import com.mygdx.game.pantalla.GameScreen;
 
     public class JoyStick {
         Viewport viewport;
         Stage stage;
-        boolean upPressed, downPressed, leftPressed, rightPressed;
+        boolean upPressed, downPressed, leftPressed, rightPressed, tirito;
         OrthographicCamera cam;
 
         public JoyStick(){
             cam = new OrthographicCamera();
-            viewport = new FitViewport(800, 480, cam);
+            viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, cam);
             stage = new Stage(viewport, GameScreen.batch);
-
             stage.addListener(new InputListener(){
 
                 @Override
@@ -68,11 +69,14 @@ import com.mygdx.game.pantalla.GameScreen;
 
             Gdx.input.setInputProcessor(stage);
 
-            Table table = new Table();
-            table.left().bottom();
 
+
+
+            Table table = new Table();
+            table.bottom().left();
             Image upImg = new Image(new Texture("flatDark25.png"));
-            upImg.setSize(50, 50);
+            upImg.setSize(70, 70);
+
             upImg.addListener(new InputListener() {
 
                 @Override
@@ -88,7 +92,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image downImg = new Image(new Texture("flatDark26.png"));
-            downImg.setSize(50, 50);
+            downImg.setSize(70, 70);
             downImg.addListener(new InputListener() {
 
                 @Override
@@ -104,7 +108,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image rightImg = new Image(new Texture("flatDark24.png"));
-            rightImg.setSize(50, 50);
+            rightImg.setSize(70, 70);
             rightImg.addListener(new InputListener() {
 
                 @Override
@@ -120,7 +124,7 @@ import com.mygdx.game.pantalla.GameScreen;
             });
 
             Image leftImg = new Image(new Texture("flatDark23.png"));
-            leftImg.setSize(50, 50);
+            leftImg.setSize(70, 70);
             leftImg.addListener(new InputListener() {
 
                 @Override
@@ -135,6 +139,9 @@ import com.mygdx.game.pantalla.GameScreen;
                 }
             });
 
+
+            Image ShooterImg = new Image(new Texture("flatDark23.png"));
+            ShooterImg.setSize(70,70);
             table.add();
             table.add(upImg).size(upImg.getWidth(), upImg.getHeight());
             table.add();
@@ -148,6 +155,12 @@ import com.mygdx.game.pantalla.GameScreen;
             table.add();
 
             stage.addActor(table);
+
+            Table table1 = new Table();
+            table1.top().right();
+            table1.add(ShooterImg).size(ShooterImg.getWidth(),ShooterImg.getHeight());
+
+
         }
 
         public void draw(){
@@ -170,8 +183,21 @@ import com.mygdx.game.pantalla.GameScreen;
             return rightPressed;
         }
 
+        public boolean isTirito(){
+            return tirito;
+        }
+
         public void resize(int width, int height){
             viewport.update(width, height);
         }
+
+        public OrthographicCamera getCam() {
+            return cam;
+        }
+
+        public void setCam(OrthographicCamera cam) {
+            this.cam = cam;
+        }
+
     }
 

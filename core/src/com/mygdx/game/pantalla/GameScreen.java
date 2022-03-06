@@ -2,7 +2,7 @@ package com.mygdx.game.pantalla;
 
 import static com.mygdx.game.Constantes.SCREEN_HEIGHT;
 import static com.mygdx.game.Constantes.SCREEN_WIDTH;
-import static com.mygdx.game.Constantes.WORLD_HEIGTH;
+import static com.mygdx.game.Constantes.WORLD_HEIGHT;
 import static com.mygdx.game.Constantes.WORLD_WIDTH;
 
 import com.badlogic.gdx.Gdx;
@@ -38,27 +38,22 @@ public class GameScreen extends Pantalla implements ContactListener {
     private Body cielo;
     private final Stage stage;
     private World world;
-    private OrthographicCamera camara;
     public static SpriteBatch batch;
     public JoyStick joyStick;
-    public static final float PPM = 100;
+
 
     public GameScreen(MainGame m) {
-
         super(m);
-
         this.world = new World(new Vector2(0, -9.8f), true); //fisicas
+
         batch = new SpriteBatch();
         this.world.setContactListener(this);
-        FillViewport fillViewport = new FillViewport(WORLD_WIDTH, WORLD_HEIGTH);
-        fillViewport.getTopGutterHeight();
+        FillViewport fillViewport = new FillViewport(WORLD_WIDTH,WORLD_HEIGHT);
         this.stage = new Stage(fillViewport);
         this.musiquita = m.mainManager.getMusica();
         this.stage.addActor(m.mainManager.addBackground());
-        joyStick = new JoyStick();
-
         createSuelo();
-        preparaCamara();
+        joyStick = new JoyStick();
 
     }
 
@@ -67,6 +62,7 @@ public class GameScreen extends Pantalla implements ContactListener {
         addHero(this.world, main.mainManager.getHeroAnimation(), new Vector2(WORLD_WIDTH / 2f, 2F));
         this.musiquita.setVolume(0.20f);
         this.musiquita.play();
+
     }
 
 
@@ -76,28 +72,20 @@ public class GameScreen extends Pantalla implements ContactListener {
         return hero;
     }
 
-
+    @Override
     public void render(float delta) {
         update(Gdx.graphics.getDeltaTime());
         this.stage.act();
         this.world.step(delta, 1, 2);
         this.stage.draw();
         joyStick.draw();
-        preparaCamara();
     }
 
-
-    public void preparaCamara() {
-        this.camara = new OrthographicCamera();
-        this.camara.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
-        this.camara.update();
-
-
-    }
 
     public void update(float deltaTime) {
         input();
         world.step(1 / 60f, 6, 2);
+
     }
 
 
@@ -134,6 +122,7 @@ public class GameScreen extends Pantalla implements ContactListener {
         fixture_floor.setUserData("SUELO");
         boxShape.dispose();
     }
+
     public void input() {
         if (joyStick.isRightPressed())
             hero.getHero_body().setLinearVelocity(new Vector2(1, 0));
@@ -152,30 +141,8 @@ public class GameScreen extends Pantalla implements ContactListener {
 
             }
 
-
         }
-    }
 
 
-/*
-*
-*       suelo plano
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(WORLD_HEIGTH, 0);
-        bdef.type = BodyDef.BodyType.StaticBody;
-        Body b2body = world.createBody(bdef);
+}
 
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WORLD_WIDTH, 20 / PPM);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
-*
-*
-*
-*
-* */

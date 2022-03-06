@@ -47,6 +47,7 @@ public class Hero extends Actor {
         hero_width = 0.5f;
         hero_height = 0.5F;
         posicion = pos;
+        int vida = 0;
         createBody(posicion);
         createFixture();
     }
@@ -73,7 +74,6 @@ public class Hero extends Actor {
     }
 
     @Override
-    //Dibuja el actor en pantalla en relacion a la posicion indicada
     public void draw(Batch batch, float parentAlpha) {
         setPosition(hero_body.getPosition().x - (hero_width / 2), hero_body.getPosition().y - (hero_height / 2));
         batch.draw(this.animation.getKeyFrame(tiempo, true), getX(), getY(), hero_width, hero_height);
